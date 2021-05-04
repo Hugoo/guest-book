@@ -1,4 +1,4 @@
-import { PostedMessage, messages } from './model';
+import { PostedMessage, messages } from "./model";
 
 // --- contract code goes below
 
@@ -10,9 +10,9 @@ const MESSAGE_LIMIT = 10;
  * NOTE: This is a change method. Which means it will modify the state.\
  * But right now we don't distinguish them with annotations yet.
  */
-export function addMessage(text: string): void {
+export function addMessage(text: string, city: string): void {
   // Creating a new message and populating fields with our data
-  const message = new PostedMessage(text);
+  const message = new PostedMessage(text, city);
   // Adding the message to end of the the persistent collection
   messages.push(message);
 }
@@ -25,8 +25,10 @@ export function getMessages(): PostedMessage[] {
   const numMessages = min(MESSAGE_LIMIT, messages.length);
   const startIndex = messages.length - numMessages;
   const result = new Array<PostedMessage>(numMessages);
-  for(let i = 0; i < numMessages; i++) {
-    result[i] = messages[i + startIndex];
+  for (let i = 0; i < numMessages; i++) {
+    const m = messages[i + startIndex];
+    m.text = m.text + "tweak";
+    result[i] = m;
   }
   return result;
 }
